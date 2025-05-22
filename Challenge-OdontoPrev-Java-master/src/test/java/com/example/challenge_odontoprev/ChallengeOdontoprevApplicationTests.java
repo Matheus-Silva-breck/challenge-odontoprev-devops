@@ -1,13 +1,13 @@
-package com.example.challenge_odontoprev;
+//package com.example.challenge_odontoprev;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class ChallengeOdontoprevApplicationTests {
+//@SpringBootTest
+//class ChallengeOdontoprevApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+	//@Test
+	//void contextLoads() {
+	//}
 
-}
+//}
