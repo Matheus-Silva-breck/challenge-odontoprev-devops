@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{app.name} + ' - ' + #{nav.appointments}">OdontoPrev - Consultas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+<header class="bg-blue-600 text-white shadow-lg">
+    <div class="container mx-auto px-4 py-6">
+        <div class="flex justify-between items-center">
+            <h1 class="text-3xl font-bold" th:text="#{app.header.title} + ' - ' + #{app.name}">Challenge Java - OdontoPrev</h1>
+            <div class="flex items-center space-x-4">
+                <div class="flex space-x-2 mr-4">
+                    <a th:href="@{/web/consultas(lang=pt_BR)}"
+                       class="px-2 py-1 rounded hover:bg-blue-700"
+                       th:classappend="${#locale.language == 'pt' ? 'bg-blue-800' : ''}">
+                        PT
+                    </a>
+                    <a th:href="@{/web/consultas(lang=en)}"
+                       class="px-2 py-1 rounded hover:bg-blue-700"
+                       th:classappend="${#locale.language == 'en' ? 'bg-blue-800' : ''}">
+                        EN
+                    </a>
+                </div>
+                <div sec:authorize="isAuthenticated()" class="flex items-center space-x-4">
+                    <span class="font-medium" sec:authentication="principal.usuario.nome"></span>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded" th:text="#{nav.logout}">
+                            Sair
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <nav class="mt-4 flex justify-center space-x-4">
+            <a th:href="@{/}" class="text-white hover:underline" th:text="#{nav.home}">Home</a>
+            <a th:href="@{/web/usuarios}" class="text-white hover:underline"
+               sec:authorize="hasAuthority('ROLE_ADMIN')" th:text="#{nav.users}">Usuários</a>
+            <a th:href="@{/web/tratamentos}" class="text-white hover:underline"
+               sec:authorize="hasAuthority('ROLE_ADMIN')" th:text="#{nav.treatments}">Tratamentos</a>
+            <a th:href="@{/web/consultas}" class="text-white hover:underline font-bold"
+               sec:authorize="isAuthenticated()" th:text="#{nav.appointments}">Consultas</a>
+            <a th:href="@{/web/lembretes}" class="text-white hover:underline"
+               sec:authorize="isAuthenticated()" th:text="#{nav.reminders}">Lembretes</a>
+            <a th:href="@{/chatai}" class="text-white hover:underline"
+               sec:authorize="isAuthenticated()" th:text="#{nav.assistant}">Assistente AI</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container mx-auto px-4 py-8">
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold mb-4" th:text="#{appointments.list.title}">Lista de Consultas</h2>
+        <a th:href="@{/web/consultas/novo}" class="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block" th:text="#{appointments.button.new}">Nova Consulta</a>
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+            <tr class="bg-gray-200">
+                <th class="py-2 px-4 border" th:text="#{appointments.table.name}">Nome</th>
+                <th class="py-2 px-4 border" th:text="#{appointments.table.date}">Data</th>
+                <th class="py-2 px-4 border" th:text="#{appointments.table.patient}">Paciente</th>
+                <th class="py-2 px-4 border" th:text="#{appointments.table.treatments}">Tratamentos</th>
+                <th class="py-2 px-4 border" th:text="#{appointments.table.actions}">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="consulta : ${consultas}" class="hover:bg-gray-50">
+                <td class="py-2 px-4 border" th:text="${consulta.nome}"></td>
+                <td class="py-2 px-4 border" th:text="${#temporals.format(consulta.data, 'dd/MM/yyyy HH:mm')}"></td>
+                <td class="py-2 px-4 border" th:text="${consulta.usuarioNome}"></td>
+                <td class="py-2 px-4 border">
+                    <div class="flex flex-wrap gap-1">
+                        <span th:each="tratamento : ${consulta.tratamentos}"
+                              class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                            <span th:text="${tratamento.nome}"></span>
+                        </span>
+                    </div>
+                </td>
+                <td class="py-2 px-4 border">
+                    <a th:href="@{/web/consultas/detalhes/{id}(id=${consulta.id})}"
+                       class="text-blue-500 hover:underline" th:text="#{appointments.button.details}">Detalhes</a>
+                    <a th:href="@{/web/consultas/deletar/{id}(id=${consulta.id})}"
+                       th:onclick="'return confirm(\'' + #{appointments.delete.confirm} + '\')'"
+                       class="text-red-500 hover:underline ml-2" th:text="#{appointments.button.delete}">Deletar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>
