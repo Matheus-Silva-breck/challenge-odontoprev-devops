@@ -7,9 +7,9 @@ pool:
 steps:
   - task: Maven@4
     inputs:
-      mavenPomFile: 'pom.xml'
+      mavenPomFile: 'Challenge-OdontoPrev-Java-master/pom.xml'
       goals: 'clean package'
       javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.11'
+      jdkVersionOption: 1.11
       mavenVersionOption: 'Default'
       publishJUnitResults: true
