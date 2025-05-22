@@ -5,10 +5,11 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - task: Maven@3
+  - task: Maven@4
     inputs:
       mavenPomFile: 'pom.xml'
-      goals: 'package'
+      goals: 'clean package'
       javaHomeOption: 'JDKVersion'
-      jdkVersionOption: 1.11
+      jdkVersionOption: '1.11'
+      mavenVersionOption: 'Default'
       publishJUnitResults: true
