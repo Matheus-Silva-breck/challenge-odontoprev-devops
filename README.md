@@ -41,4 +41,5 @@ A pipeline foi configurada para rodar automaticamente via Azure DevOps e executa
 - Deploy contínuo (manual ou automático)
 
 ## Link do vídeo demonstrativo
-[Assista no YouTube](https://youtu.be/iMoH6Vj3kVA)
+: https://youtu.be/7b-fAs7jMwI
+: https://youtu.be/Xs5JSb0sboM?feature=shared
