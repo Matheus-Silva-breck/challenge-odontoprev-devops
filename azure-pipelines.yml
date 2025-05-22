@@ -5,16 +5,11 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-  - task: JavaToolInstaller@0
-    inputs:
-      versionSpec: '21'
-      jdkArchitectureOption: 'x64'
-      jdkSourceOption: 'PreInstalled'
-
   - task: Maven@4
     inputs:
       mavenPomFile: 'Challenge-OdontoPrev-Java-master/pom.xml'
       goals: 'clean install'
-      javaHomeOption: 'Path'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.21'
       mavenVersionOption: 'Default'
       mavenOptions: '-Xmx1024m'
